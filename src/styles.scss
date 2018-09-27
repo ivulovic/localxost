@@ -1,1 +1,48 @@
-/* You can add global styles to this file, and also import other style files */
+*{
+  padding: 0px;
+  margin:0px;
+}
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.dark-background{
+  background: #222;
+}
+.dots-header{
+  padding: 5px 10px;
+  cursor: default;
+}
+.red-background{
+  background: #d83333;
+}
+.yellow-background{
+  background: #dcc20c;
+}
+.green-background{
+  background: #19c119;
+}
+.dots{
+  display: inline-block;
+}
+.dot{
+  padding: 5px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+.dots-header-title{
+  display: inline-block;
+  color: #a0a0a0;
+  font-weight: bold;
+  font-size: 14px;
+  font-family: monospace;
+  padding: 5px 0px;
+  position: relative;
+  bottom: 1px
+}
