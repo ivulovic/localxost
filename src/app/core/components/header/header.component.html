@@ -11,19 +11,10 @@
   </div>
   <div class="right">
     <ul class="menu">
-      <li>
-        <button type="button" class="button-link" (click)="toggleMenu()"><Icon icon="bars" color="dirty"></Icon></button>
-      </li>
+      <li><button type="button" class="button-link" (click)="toggleMenu()"><Icon icon="bars" color="dirty"></Icon></button></li>
       <div class="menu-responsive hidden" (click)="toggleMenu()">
-        <li>
-          <a routerLink="/">home</a>
-        </li>
-        <li>
-          <a routerLink="/react">react</a>
-        </li>
-        <li>
-          <a routerLink="/angular">angular</a>
-        </li>
+        <li><a routerLink="/react">react</a></li>
+        <li><a routerLink="/angular">angular</a></li>
       </div>
 
     </ul>
