@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
-    "build": "ng build",
+    "build": "ng build --aot --prod",
     "local": "ng serve -o --port 8080",
     "postinstall": "ng build",
     "test": "ng test",
