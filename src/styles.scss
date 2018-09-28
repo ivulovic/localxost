@@ -53,12 +53,13 @@ $sides: (top, bottom, left, right);
   padding: 0px;
   margin:0px;
   font-family: monospace;
+  outline: none;
 }
 
 /**HEADER START**/
 
 .dots-header{
-  padding: 5px 10px;
+  padding: 10px;
   cursor: default;
 }
 .red-background{
@@ -86,22 +87,15 @@ $sides: (top, bottom, left, right);
   display: inline-block;
   color: $dirty;
   font-weight: bold;
-  font-size: 14px;
-  padding: 5px 0px;
-  position: relative;
-  bottom: 1px;
-  .gt-sign{
-    display: inline-block;
-    margin: 0px;
-    padding: 0px 5px 0px 7px;
-  }
-  .pathname{
+  font-size: 15px;
+  .header-title{
     margin: 0px 0px 0px 5px;
   }
 }
 .menu{
   display: inline-block;
   position: relative;
+  font-size: 15px;
   li{
     list-style: none;
     display: inline-block;
@@ -112,21 +106,25 @@ $sides: (top, bottom, left, right);
   }
   a{
     color: $dirty;
-    padding: 5px;
+    padding: 10px;
     font-weight: bold;
     display: block;
     cursor: pointer;
+    text-decoration: none;
+  }
+  button{
+    font-size: 15px;
   }
   .menu-responsive{
     position: absolute;
     right: -10px;
-    top: 25px;
-    background: #222;
+    top: 30px;
+    background: $dark;
     text-align: right;
-    padding: 10px;
-    li{
-      width: 100%;
-    }
+  }
+
+  li{
+    width: 100%;
   }
 }
 
@@ -134,7 +132,6 @@ $sides: (top, bottom, left, right);
 
 .button-link{
   color: $dirty;
-  padding: 5px;
   font-weight: bold;
   cursor: pointer;
   background: none;
@@ -144,7 +141,13 @@ $sides: (top, bottom, left, right);
 
 /*GENERAL*/
 
-
+.pointer{
+  cursor: pointer;
+}
+.icon{
+  position: relative;
+  top: 1px;
+}
 .hidden{
   display: none;
 }
