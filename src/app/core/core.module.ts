@@ -4,6 +4,7 @@ import { HeaderComponent } from './components/header/header.component';
 import {RouterModule} from '@angular/router';
 import {CoreRoutingModule} from './core-routing.module';
 import {ToolsModule} from '../tools/tools.module';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   imports: [
@@ -12,7 +13,7 @@ import {ToolsModule} from '../tools/tools.module';
     CoreRoutingModule,
     ToolsModule
   ],
-  declarations: [HeaderComponent],
+  declarations: [HeaderComponent, NotFoundComponent],
   exports: [HeaderComponent]
 })
 export class CoreModule {

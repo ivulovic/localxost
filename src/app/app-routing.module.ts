@@ -6,8 +6,7 @@ import {RouterModule} from '@angular/router';
     imports: [
         RouterModule.forRoot([
             {path: '', loadChildren: './core/core.module#CoreModule'},
-            {path: 'react', loadChildren: './react/react.module#ReactModule'},
-            {path: 'angular', loadChildren: './angular/angular.module#AngularModule'},
+            {path: 'docs', loadChildren: './docs/docs.module#DocsModule'},
             {path: '**', redirectTo:"page-not-found"}
         ])
     ]

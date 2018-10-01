@@ -3,66 +3,13 @@
 
     <Header></Header>
 
-    <div class="sidebar-bold">Simple docs for complex websites.</div>
+   <div *ngFor="let page of content">
+     <div class="scroll-header">{{page.topic}}</div>
+     <div class="scroll-content">
+       <a class="sidebar-link" *ngFor="let section of page.sections; let i = index" routerLink="docs/{{page.topic.toLowerCase()}}/{{hyphen(section)}}">{{section}}</a>
+     </div>
+   </div>
 
-
-    <div class="scroll-header">Sass</div>
-    <div class="scroll-content">
-      <div>Color table</div>
-      <div>Dynamic class creating</div>
-    </div>
-
-    <div class="scroll-header">Redux</div>
-    <div class="scroll-content">
-      <div>Redux concept</div>
-    </div>
-
-    <div class="scroll-header">React</div>
-    <div class="scroll">
-      <div class="scroll-content">
-        <div>Dumb vs Smart components</div>
-        <div>Create React component</div>
-        <div>Set up React router</div>
-        <div>React Lifecycle methods</div>
-        <div>React and Redux</div>
-      </div>
-    </div>
-
-    <div class="scroll-header">Angular</div>
-    <div class="scroll-content">
-      <div>Create Angular component</div>
-      <div>Set up Angular router</div>
-      <div>Set up Angular guards</div>
-      <div>Set up Angular and Redux Store</div>
-      <div>Route intercepting with Redux Store Router</div>
-      <div>Combine guards with Redux</div>
-    </div>
-
-    <div class="scroll-header">NodeJS</div>
-    <div class="scroll-content">
-      <div>Set up an NodeJS server</div>
-      <div>Working with API</div>
-    </div>
-
-    <div class="scroll-header">MongoDB</div>
-    <div class="scroll-content">
-      <div>Creating MongoDB model</div>
-      <div>Queries</div>
-      <div>Creating references between collections</div>
-    </div>
-
-    <div class="scroll-header">Authentication</div>
-    <div class="scroll-content">
-      <div>Simple user authentication with Angular, ExpressJS and MongoDB</div>
-    </div>
-
-    <div class="scroll-header">Deployment</div>
-    <div class="scroll-content">
-      <div>Deploy an Angular app to Heroku</div>
-      <div>Deploy an PHP app to the free hosting</div>
-    </div>
-
-    <div class="sidebar-bold">The end.</div>
   </div>
 
 </div>
