@@ -1,8 +1,8 @@
 $dark:  #222;
 $red: #d83333;
 $yellow: #dcc20c;
-//$yellow: #EDB746;
-$green: #19c119;
+$brown: #84645a;
+$green: #99ca62;
 $dirty: #a0a0a0;
 
 $black: #212121;
@@ -43,6 +43,7 @@ $colors: (
   lightGray: $lightGray,
   dirty: $dirty,
   dark: $dark,
+  brown: $brown,
   white: white,
   inherit: inherit
 );
@@ -152,7 +153,7 @@ $sides: (top, bottom, left, right);
 .scroll-header{
   margin-bottom: 5px;
   font-weight: bold;
-  color: $blue;
+  color: $brown;
 }
 
 .button-link{
@@ -207,8 +208,30 @@ $sides: (top, bottom, left, right);
   text-transform: uppercase;
   button{
     @extend .transition;
-    @extend .blue-hover;
+    @extend .brown-hover;
     background-color: transparent;
+  }
+}
+.modal-content{
+  border-radius: 0px;
+}
+.modal-header{
+  background-color: $dark;
+  color: white;
+  font-weight: bold;
+  button{
+    @extend .transition;
+    color: white;
+    background-color: transparent;
+    &:hover{
+      text-shadow: none;
+      color: white;
+    }
+  }
+}
+.modal-footer{
+  button{
+    border-radius: 0px;
   }
 }
 

@@ -5,6 +5,7 @@ import {RouterModule} from '@angular/router';
 import {CoreRoutingModule} from './core-routing.module';
 import {ToolsModule} from '../tools/tools.module';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import {MessageService} from './services/message.service';
 
 @NgModule({
   imports: [
@@ -20,7 +21,7 @@ export class CoreModule {
     static forRoot() : ModuleWithProviders{
         return {
             ngModule: CoreModule,
-            providers:[]
+            providers:[MessageService]
         };
     }
 }
