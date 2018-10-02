@@ -1,6 +1,79 @@
 <div class="content-title">Sass</div>
 
-<ClipboardLink id="color-table"></ClipboardLink>
+<ClipboardLink id="working-with-colors"></ClipboardLink>
+
+<p class="section-paragraph">Counter card with gradient</p>
+
+<div>
+  <div class="color-box relative {{selectedOverlay.name}} col-xs-12 col-md-4 col-lg-4">
+    <p class="color-box-counter">123</p>
+    <p class="color-box-title">{{selectedOverlay.name.split("-").join(" ")}}</p>
+  </div>
+  <div class="col-xs-12 col-md-8 col-lg-8 pull-right ">
+    <button *ngFor="let color of overlayColors" class="{{color.name}} overlay-button" (click)="selectOverlay(color)"></button>
+  </div>
+  <div class="clear"></div>
+</div>
+
+<p class="section-paragraph">See the code</p>
+
+<div class="code">
+  <p class="code-lang">HTML</p>
+<pre>
+&lt;div class="color-box relative {{selectedOverlay.name}} col-xs-12 col-md-4 col-lg-4"&gt;
+  &lt;p class="color-box-counter"&gt;123&lt;/p&gt;
+  &lt;p class="color-box-title"&gt;{{selectedOverlay.name}}&lt;/p&gt;
+&lt;/div&gt;
+</pre>
+</div>
+
+<div class="code">
+  <p class="code-lang">CSS</p>
+<pre>
+.color-box&#123;
+  height: 200px;
+  display: inline-block;
+  overflow: hidden;
+  float: left;
+&#125;
+
+.color-box-counter&#123;
+  font-size: 50px;
+  margin: 0px;
+  padding: 20px 20px;
+  color: white;
+  font-weight: bold;
+&#125;
+
+.color-box-title&#123;
+  padding: 0px 20px;
+  color: white;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 25px;
+  margin: 0px;
+&#125;
+
+.code-lang&#123;
+  margin: 0px;
+  background: $blue;
+  color: white;
+  padding: 5px 10px;
+&#125;
+
+.{{selectedOverlay.name}}&#123;
+  background: {{selectedOverlay.start}};
+  background: -moz-linear-gradient(45deg, #{{selectedOverlay.start}} 0%, #{{selectedOverlay.end}} 100%);
+  background: -webkit-gradient(left bottom, right top, color-stop(0%, #{{selectedOverlay.start}}), color-stop(100%, #{{selectedOverlay.end}}));
+  background: -webkit-linear-gradient(45deg, #{{selectedOverlay.start}} 0%,  #{{selectedOverlay.end}} 100%);
+  background: -o-linear-gradient(45deg, #{{selectedOverlay.start}} 0%,  #{{selectedOverlay.end}} 100%);
+  background: -ms-linear-gradient(45deg, #{{selectedOverlay.start}} 0%,  #{{selectedOverlay.end}} 100%);
+  background: linear-gradient(45deg, #{{selectedOverlay.start}} 0%,  #{{selectedOverlay.end}} 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{{selectedOverlay.start}}', endColorstr='#{{selectedOverlay.end}}', GradientType=1);
+&#125;
+</pre>
+</div>
+
 
 <ClipboardLink id="dynamic-class-creating"></ClipboardLink>
 

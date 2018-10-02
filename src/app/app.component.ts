@@ -18,7 +18,7 @@ export class AppComponent {
 
   content = [
     {topic: "Sass", sections:[
-      "Color table",
+      "Working with colors",
       "Dynamic class creating"
     ]},
     {topic: "Redux", sections:[
