@@ -35,13 +35,23 @@ export class SassContentComponent extends ContentComponent {
     {name: "fizzy-peach", start:"F24645", end: "EBC08D"},
     {name: "sweet-dream", start:"3A3897", end: "A3A1FF"},
     {name: "firebrick", start:"45145A", end: "FF5300"},
-    {name: "evening-light", start:"93278F", end: "00A99D"},
+    {name: "evening-light", start:"93278F", end: "00A99D"}
   ];
 
   selectedOverlay = this.overlayColors[0];
 
   selectOverlay(color) {
     this.selectedOverlay = color;
+  }
+
+  direction = 'normal';
+  imageDirection = 'thumbnail-img-left';
+
+  switchThumbnailDirection(direction){
+    this.direction = direction === 'horizontal' ? 'normal' : 'horizontal';
+  }
+  switchThumbnailImageDirection(direction){
+    this.imageDirection = direction === 'thumbnail-img-left' ? 'thumbnail-img-right' : 'thumbnail-img-left';
   }
 
 }

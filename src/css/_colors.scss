@@ -1,0 +1,142 @@
+$dark:  #222;
+$red: #d83333;
+$yellow: #dcc20c;
+$brown: #84645a;
+$green: #1fad38;
+$dirty: #a0a0a0;
+$black: #212121;
+$lightBlack : rgba(64,64,64,0.4);
+$lightGray : rgba(0,0,0,0.4);
+$darkGray: #3B3B3B;
+$gray: #AAB2BC;
+$light: rgba(255,255,255,0.4);
+$loading: rgba(255,255,255,0.8);
+$dimGray:#F4F3EE;
+$blue: #039BE5;
+$darkBlue: #3B5992;
+$pink: #C6529C;
+$orange: #F66B59;
+$dimPurple:#7E7489;
+$purple: #54366D;
+$darkPurple: #322243;
+$teal: #00B196;
+$lightTeal: #2AC5C7;
+
+$colors: (
+  black:$black,
+  darkGray: $darkGray,
+  gray: $gray,
+  blue: $blue,
+  pink:$pink,
+  red: $red,
+  orange: $orange,
+  yellow: $yellow,
+  purple: $purple,
+  darkPurple: $darkPurple,
+  green: $green,
+  teal: $teal,
+  light:$light,
+  lightBlack: $lightBlack,
+  transparent: transparent,
+  lightTeal:$lightTeal,
+  lightGray: $lightGray,
+  dirty: $dirty,
+  dark: $dark,
+  brown: $brown,
+  white: white,
+  inherit: inherit
+);
+
+$sides: (top, bottom, left, right);
+
+$gradients: ("ocean-blue", #2E3192, #1BFFFF)
+  ("mars", #d17646, #c63939)
+  ("leaf", #4db2ec, #4a8f5e)
+  ("pink", #d760b7, #3b78b4)
+  ("sanguine", #D4145A, #FBB03B)
+  ("luscious-lime", #009245, #FCEE21)
+  ("purple-lake", #662D8C, #ED1E79)
+  ("ultramarine", #00A8C5, #FFFF7E)
+  ("fresh-papaya", #ED1C24, #FCEE21)
+  ("pink-sugar", #D74177, #FFE98A)
+  ("lemon-drizzle", #FB872B, #D9E021)
+  ("victoria-purple", #312A6C, #852D91)
+  ("spring-greens", #009E00, #FFFF96)
+  ("mystic-muave", #B066FE, #63E2FF)
+  ("reflex-silver", #808080, #E6E6E6)
+  ("neon-glow", #00FFA1, #00FFFF)
+  ("berry-smoothie", #8E78FF, #FC7D7B)
+  ("new-leaf", #00537E, #3AA17E)
+  ("pixle-dust", #D585FF, #00FFEE)
+  ("fizzy-peach", #F24645, #EBC08D)
+  ("sweet-dream", #3A3897, #A3A1FF)
+  ("firebrick", #45145A, #FF5300)
+  ("evening-light", #93278F, #00A99D);
+
+@each $name, $start, $end in $gradients {
+  .#{$name} {
+    background: $start ;
+    background: -moz-linear-gradient(45deg, $start 0%, $end 100%);
+    background: -webkit-gradient(left bottom, right top, color-stop(0%, $start ), color-stop(100%, $end));
+    background: -webkit-linear-gradient(45deg, $start 0%, $end 100%);
+    background: -o-linear-gradient(45deg, $start 0%, $end 100%);
+    background: -ms-linear-gradient(45deg, $start 0%, $end 100%);
+    background: linear-gradient(45deg, $start 0%, $end 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=$start, endColorstr=$end, GradientType=1);
+
+  }
+}
+
+@for $i from 1 through 12{
+  .row-#{$i}-height{
+    height: #{$i * 10}vh;
+  }
+}
+
+@each $name in $sides {
+  .no-padding-#{$name} {
+    padding-#{$name}: 0px;
+  }
+  .no-margin-#{$name} {
+    margin-#{$name}: 0px;
+  }
+}
+
+
+
+@each $name, $value in $colors {
+
+  .background-#{$name} {
+    background: $value;
+    background-color: $value;
+  }
+
+  .#{$name}-hover{
+    &:hover{
+      color: $value;
+    }
+  }
+
+  .color-#{$name} {
+    color: $value;
+  }
+
+  .placeholder-#{$name}{
+    &::placeholder{
+      color: $value;
+    }
+    &::-webkit-input-placeholder{
+      color: $value;
+    }
+    &:-moz-placeholder{
+      color: $value;
+    }
+    &::-moz-placeholder{
+      color: $value;
+    }
+    &:-ms-input-placeholder{
+      color: $value;
+    }
+  }
+
+}
