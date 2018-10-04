@@ -318,6 +318,7 @@ $gradients: ("ocean-blue", #2E3192, #1BFFFF)
 </div>
 
 <div>
+  <div class="clear"></div>
   <button type="button" class="btn btn-secondary" (click)="switchThumbnailDirection(direction)">Switch direction</button>
   <button *ngIf="direction === 'horizontal'" type="button" class="btn btn-secondary" (click)="switchThumbnailImageDirection(imageDirection)">Switch image direction</button>
 </div>
@@ -348,13 +349,6 @@ $gradients: ("ocean-blue", #2E3192, #1BFFFF)
 
 <Code title="SCSS">
 <pre>
-.thumbnail-background&#123;
-  height: 200px;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: top;
-&#125;
-
 .thumbnail&#123;
   padding: 0px;
   border: none;
@@ -376,13 +370,17 @@ $gradients: ("ocean-blue", #2E3192, #1BFFFF)
     @extend .truncate;
   &#125;
 &#125;
-
+.thumbnail-background&#123;
+  height: 200px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top;
+&#125;
 .thumbnail.horizontal&#123;
   .thumbnail-background&#123;
     float: left;
     max-width: 30%;
     width: 100%;
-    background-position: center;
   &#125;
   .caption&#123;
     max-width:70%;
@@ -400,13 +398,11 @@ $gradients: ("ocean-blue", #2E3192, #1BFFFF)
     bottom: 0;
   &#125;
 &#125;
-
 .thumbnail.horizontal.thumbnail-img-right&#123;
   .thumbnail-background&#123;
     float: right;
     max-width: 30%;
     width: 100%;
-    background-position: center;
   &#125;
   .caption&#123;
     max-width:70%;
@@ -419,30 +415,35 @@ $gradients: ("ocean-blue", #2E3192, #1BFFFF)
     position: absolute;
     bottom: 0;
     margin-bottom: 0px;
-    padding: 0px 0px!important;
+    padding: 0px;
     display: inline-block;
   &#125;
 &#125;
-  
 .truncate&#123;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 &#125;
-  
 @media screen and (max-width: 690px) &#123;
+  .thumbnail .caption&#123;
+    padding: 10px;
+   &#125;
   .thumbnail.horizontal,  .thumbnail.horizontal.thumbnail-img-right&#123;
     .thumbnail-background&#123;
       float: none;
       max-width: 100%;
       width: 100%;
-      background-position: center
     &#125;
     .caption &#123;
       max-width: 100%;
+      width:100%;
+      float:left;
+      height: unset;
+      padding: 10px;
     &#125;
     .controls&#123;
-      padding-left: 10px!important;
+      position: absolute;
+      bottom: 0px;
     &#125;
   &#125;
 &#125;  

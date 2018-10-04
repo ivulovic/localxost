@@ -353,6 +353,7 @@ code{
     @extend .truncate;
   }
 }
+
 .thumbnail-background{
   height: 200px;
   background-repeat: no-repeat;
@@ -360,13 +361,11 @@ code{
   background-position: top;
 }
 
-
 .thumbnail.horizontal{
   .thumbnail-background{
     float: left;
     max-width: 30%;
     width: 100%;
-    background-position: center;
   }
   .caption{
     max-width:70%;
@@ -383,15 +382,12 @@ code{
     position: absolute;
     bottom: 0;
   }
-
 }
-
 .thumbnail.horizontal.thumbnail-img-right{
   .thumbnail-background{
     float: right;
     max-width: 30%;
     width: 100%;
-    background-position: center;
   }
   .caption{
     max-width:70%;
@@ -404,7 +400,7 @@ code{
     position: absolute;
     bottom: 0;
     margin-bottom: 0px;
-    padding: 0px 0px!important;
+    padding: 0px;
     display: inline-block;
   }
 }
@@ -428,21 +424,25 @@ code{
 }
 
 @media screen and (max-width: 690px) {
-  .minimal{
-    padding: 10px 5px;
+  .thumbnail .caption{
+    padding: 10px;
   }
-  .thumbnail.horizontal,  .thumbnail.horizontal.thumbnail-img-right{
+  .thumbnail.horizontal,  .thumbnail.horizontal.thumbnail-img-right, .thumbnail.horizontal.thumbnail-img-left{
     .thumbnail-background{
       float: none;
       max-width: 100%;
       width: 100%;
-      background-position: center
     }
     .caption {
       max-width: 100%;
+      width:100%;
+      float:left;
+      height: unset;
+      padding: 10px;
     }
     .controls{
-      padding-left: 10px!important;
+      position: absolute;
+      bottom: 0px;
     }
   }
 }
