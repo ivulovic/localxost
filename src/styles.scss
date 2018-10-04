@@ -417,9 +417,124 @@ code{
   text-overflow: ellipsis;
 }
 
+
+.clear{
+  clear: both;
+}
+
+.product-data-holder{
+  overflow: auto;
+}
+.product-container{
+  width: 100%;
+  float: left;
+}
+.blur-background{
+  width: 95%;
+  height: 440px;
+  z-index: -1;
+  background-size: contain;
+  filter: blur(90px);
+  position: absolute;
+  margin: 0 auto;
+  display: inline-block;
+  background: url(assets/phone.png);
+}
+.data-header{
+  width: 100%;
+  padding: 25px 0px;
+  color: #333333;
+}
+.data-header p{
+  color: #333333;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 25px;
+}
+.data-main{
+  width: 100%;
+  overflow: auto;
+}
+.data-left{
+  @extend .left;
+}
+.data-right{
+  @extend .right;
+}
+.data-image{
+  height: 100%;
+  float: left;
+  max-width: 350px;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+}
+.data-image .img{
+  position: relative;
+  width: 100%;
+  height:400px;
+  background-repeat: no-repeat;
+  background-size:contain;
+  background-position: center;
+}
+.data-top-row{
+  width: 100%;
+  height: 50%;
+  float: left;
+}
+.data-medium-box{
+  width: 100%;
+  height: 100%;
+  float: left;
+}
+.medium-box{
+  font-size: 13px;
+  text-align: justify;
+  padding: 20px 0px;
+  color: #181515;
+  font-weight: bold;
+}
+.medium-box img{
+  width: 20px;
+}
+.data-bottom-row{
+  width: 100%;
+  float: left;
+}
+.bottom-row-standard-box{
+  height: 100%;
+  float: left;
+  padding: 10px 0px;
+}
+.bottom-image-box img{
+  height: 40px;
+}
+.medium-number{
+  font-size: 25px;
+}
+.small-number{
+  font-size: 17px;
+}
+
+@media only screen and (max-width: 540px) {
+  .medium-box{
+    text-align: center;
+  }
+  .data-image{
+    max-width: unset;
+  }
+}
+
+
 @media only screen and (max-width: 992px) {
   .fixed-scroll{
     position: relative;
+  }
+  .data-image{
+    max-width: unset;
+  }
+  .data-header p{
+    text-align: center;
   }
 }
 
@@ -444,5 +559,10 @@ code{
       position: absolute;
       bottom: 0px;
     }
+  }
+
+
+  .data-medium-box, .data-bottom-row, .data-header p, .medium-box{
+    text-align: center;
   }
 }

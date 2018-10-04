@@ -21,7 +21,8 @@ export class AppComponent {
         "Dynamic class creating",
         "Color box",
         "Card",
-        "Thumbnail"
+        "Thumbnail",
+        "Product example"
     ]},
     {topic: "Redux", sections:[
       "Redux concept",
