@@ -268,9 +268,14 @@ $gradients: ("ocean-blue", #2E3192, #1BFFFF)
   height: 45vh;
   position: relative;
   padding: 0px;
+  overflow: hidden;
   div.card-background&#123;
     @extend .background-image;
+    @extend .transition;
     height: 100%;
+    &:hover&#123;
+      transform: scale(1.2) rotate(5deg);;
+     &#125;
   &#125;
   .card-title &#123;
     position: absolute;
@@ -676,7 +681,6 @@ $gradients: ("ocean-blue", #2E3192, #1BFFFF)
 
 <p class="section-paragraph">Buttons without hover effect. What you see is what you get.</p>
 
-<div class="button-group">
 <button type="button" class="button button-info">Info</button>
 <button type="button" class="button button-success">Success</button>
 <button type="button" class="button button-warning">Warning</button>
@@ -688,7 +692,7 @@ $gradients: ("ocean-blue", #2E3192, #1BFFFF)
 <button type="button" class="button-icon button-warning"> <Icon icon="warning"></Icon> Warning</button>
 <button type="button" class="button-icon button-error"> <Icon icon="exclamation-circle"></Icon> Error</button>
 <button type="button" class="button button-disabled"><Icon icon="ban"></Icon> Disabled</button>
-</div>
+
 <p class="section-paragraph">Round buttons without any effects on hover</p>
 
 <button type="button" class="button-round button-info"> Info</button>

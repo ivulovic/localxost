@@ -305,9 +305,14 @@ code{
   height: 45vh;
   position: relative;
   padding: 0px;
+  overflow: hidden;
   div.card-background{
     @extend .background-image;
+    @extend .transition;
     height: 100%;
+    &:hover{
+      transform: scale(1.2) rotate(5deg);
+    }
   }
   .card-title {
     position: absolute;
@@ -353,12 +358,12 @@ code{
     @extend .truncate;
   }
 }
-
 .thumbnail-background{
   height: 200px;
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: top;
+  background-position: center;
+  @extend .transition;
 }
 
 .thumbnail.horizontal{
