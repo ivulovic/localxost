@@ -430,7 +430,7 @@ code{
   float: left;
 }
 .blur-background{
-  width: 95%;
+  max-width: 95%;
   height: 440px;
   z-index: -1;
   background-size: contain;
@@ -439,6 +439,9 @@ code{
   margin: 0 auto;
   display: inline-block;
   background: url(assets/phone.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 .data-header{
   width: 100%;
@@ -494,7 +497,7 @@ code{
   color: #181515;
   font-weight: bold;
 }
-.medium-box img{
+.medium-box svg{
   width: 20px;
 }
 .data-bottom-row{
@@ -506,7 +509,7 @@ code{
   float: left;
   padding: 10px 0px;
 }
-.bottom-image-box img{
+.bottom-image-box svg {
   height: 40px;
 }
 .medium-number{

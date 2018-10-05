@@ -456,38 +456,38 @@ $gradients: ("ocean-blue", #2E3192, #1BFFFF)
 <p class="section-paragraph">Product example, for example for some store or something like that.</p>
 
 <div class="product-container">
-  <div class="blur-background"></div>
+  <div class="blur-background col-xs-12 col-md-4 col-lg-4"></div>
   <div class="data-main">
     <div>
-      <div class="data-left data-image col-xs-12 col-md-5 col-lg-5"><div class="img" style="background-image: url('assets/phone.png')"></div>
+      <div class="data-left data-image col-xs-12 col-md-4 col-lg-4"><div class="img" style="background-image: url('assets/phone.png')"></div>
       </div>
       <div class="data-right col-xs-12 col-md-7 col-lg-7">
         <div class="data-header"><p>SAMSUNG GALAXY S7 EDGE</p></div>
         <div class="data-top-row">
           <div class="data-medium-box">
-            <div class="medium-box col-xs-12 col-sm-4 col-md-12 col-lg-12"><img src="http://www.mobilestore.epizy.com/images/icons/calendar.png"> Released 2016, March </div>
-            <div class="medium-box col-xs-12 col-sm-4 col-md-12 col-lg-12"> <img src="http://www.mobilestore.epizy.com/images/icons/phone.png" alt="Icon">  152g, 7.9mm thickness</div>
-            <div class="medium-box col-xs-12 col-sm-4 col-md-12 col-lg-12"><img src="http://www.mobilestore.epizy.com/images/icons/code.png">   Android OS, v6.0, up to v7.0  </div>
+            <div class="medium-box col-xs-12 col-sm-4 col-md-12 col-lg-12"><Icon icon="calendar"></Icon> Released 2016, March </div>
+            <div class="medium-box col-xs-12 col-sm-4 col-md-12 col-lg-12"><Icon icon="tablet"></Icon> 152g, 7.9mm thickness</div>
+            <div class="medium-box col-xs-12 col-sm-4 col-md-12 col-lg-12"><Icon icon="code"></Icon>  Android OS, v6.0, up to v7.0  </div>
           </div>
         </div>
         <div class="data-bottom-row">
           <div class="bottom-row-standard-box col-xs-6 col-sm-3 col-md-3 col-lg-3">
-            <p class="bottom-image-box"><img src="http://www.mobilestore.epizy.com/images/icons/screen.png" alt="Hhaa"></p>
+            <p class="bottom-image-box"><Icon icon="tablet fa-3x"></Icon> </p>
             <p class="medium-number">5.1 '' </p>
             <p class="small-number">1440 x 2560 px</p>
           </div>
           <div class="bottom-row-standard-box col-xs-6 col-sm-3 col-md-3 col-lg-3">
-            <p class="bottom-image-box"><img src="http://www.mobilestore.epizy.com/images/icons/camera.png" alt="Hhaa"></p>
+            <p class="bottom-image-box"><Icon icon="camera-retro fa-3x"></Icon></p>
             <p class="medium-number">12 MP</p>
             <p class="small-number">2160 p</p>
           </div>
           <div class="bottom-row-standard-box col-xs-6 col-sm-3 col-md-3 col-lg-3">
-            <p class="bottom-image-box"><img src="http://www.mobilestore.epizy.com/images/icons/memory.png" alt="Hhaa"></p>
-            <p class="medium-number">4 GB RAM</p>
+            <p class="bottom-image-box"><Icon icon="microchip fa-3x"></Icon></p>
+            <p class="medium-number">4 GB</p>
             <p class="small-number">Snapdragon 820</p>
           </div>
           <div class="bottom-row-standard-box col-xs-6 col-sm-3 col-md-3 col-lg-3">
-            <p class="bottom-image-box"><img src="http://www.mobilestore.epizy.com/images/icons/battery.png" alt="Hhaa"></p>
+            <p class="bottom-image-box"><Icon icon="battery-full fa-3x"></Icon></p>
             <p class="medium-number">3000 mAh</p>
             <p class="small-number">Li-Ion</p>
           </div>
@@ -502,7 +502,7 @@ $gradients: ("ocean-blue", #2E3192, #1BFFFF)
 <Code title="HTML">
 <pre>
 &lt;div class="product-container"&gt;
-  &lt;div class="blur-background"&gt;&lt;/div&gt;
+  &lt;div class="blur-background col-xs-12 col-md-4 col-lg-4"&gt;&lt;/div&gt;
   &lt;div class="data-main"&gt;
     &lt;div&gt;
       &lt;div class="data-left data-image col-xs-12 col-md-5 col-lg-5"&gt;&lt;div class="img" style="background-image: url('phone.png')"&gt;&lt;/div&gt;
@@ -511,30 +511,30 @@ $gradients: ("ocean-blue", #2E3192, #1BFFFF)
         &lt;div class="data-header"&gt;&lt;p&gt;SAMSUNG GALAXY S7 EDGE&lt;/p&gt;&lt;/div&gt;
         &lt;div class="data-top-row"&gt;
           &lt;div class="data-medium-box"&gt;
-            &lt;div class="medium-box col-xs-12 col-sm-4 col-md-12 col-lg-12"&gt;&lt;img src="calendar.png"&gt; Released 2016, March &lt;/div&gt;
-            &lt;div class="medium-box col-xs-12 col-sm-4 col-md-12 col-lg-12"&gt; &lt;img src="phone.png" alt="Icon"&gt;  152g, 7.9mm thickness&lt;/div&gt;
-            &lt;div class="medium-box col-xs-12 col-sm-4 col-md-12 col-lg-12"&gt;&lt;img src="code.png"&gt;   Android OS, v6.0, up to v7.0  &lt;/div&gt;
+            &lt;div class="medium-box col-xs-12 col-sm-4 col-md-12 col-lg-12"&gt;&lt;Icon icon="calendar"&gt;&lt;/Icon&gt; Released 2016, March &lt;/div&gt;
+            &lt;div class="medium-box col-xs-12 col-sm-4 col-md-12 col-lg-12"&gt;&lt;Icon icon="tablet"&gt;&lt;/Icon&gt; 152g, 7.9mm thickness&lt;/div&gt;
+            &lt;div class="medium-box col-xs-12 col-sm-4 col-md-12 col-lg-12"&gt;&lt;Icon icon="code"&gt;&lt;/Icon&gt;  Android OS, v6.0, up to v7.0  &lt;/div&gt;
           &lt;/div&gt;
         &lt;/div&gt;
         &lt;div class="data-bottom-row"&gt;
           &lt;div class="bottom-row-standard-box col-xs-6 col-sm-3 col-md-3 col-lg-3"&gt;
-            &lt;p class="bottom-image-box"&gt;&lt;img src="screen.png" alt="Hhaa"&gt;&lt;/p&gt;
-            &lt;p class="medium-number"&gt;5.1 '' &lt;/p&gt;
+            &lt;p class="bottom-image-box"&gt;&lt;Icon icon="tablet fa-3x"&gt;&lt;/Icon&gt; &lt;/p&gt;
+            &lt;p class="medium-number"&gt;5.1'' &lt;/p&gt;
             &lt;p class="small-number"&gt;1440 x 2560 px&lt;/p&gt;
           &lt;/div&gt;
           &lt;div class="bottom-row-standard-box col-xs-6 col-sm-3 col-md-3 col-lg-3"&gt;
-            &lt;p class="bottom-image-box"&gt;&lt;img src="camera.png" alt="Hhaa"&gt;&lt;/p&gt;
-            &lt;p class="medium-number"&gt;12 MP &lt;/p&gt;
+            &lt;p class="bottom-image-box"&gt;&lt;Icon icon="camera-retro fa-3x"&gt;&lt;/Icon&gt;&lt;/p&gt;
+            &lt;p class="medium-number"&gt;12 MP&lt;/p&gt;
             &lt;p class="small-number"&gt;2160 p&lt;/p&gt;
           &lt;/div&gt;
           &lt;div class="bottom-row-standard-box col-xs-6 col-sm-3 col-md-3 col-lg-3"&gt;
-            &lt;p class="bottom-image-box"&gt;&lt;img src="memory.png" alt="Hhaa"&gt;&lt;/p&gt;
-            &lt;p class="medium-number"&gt;4 GB RAM &lt;/p&gt;
+            &lt;p class="bottom-image-box"&gt;&lt;Icon icon="microchip fa-3x"&gt;&lt;/Icon&gt;&lt;/p&gt;
+            &lt;p class="medium-number"&gt;4 GB&lt;/p&gt;
             &lt;p class="small-number"&gt;Snapdragon 820&lt;/p&gt;
           &lt;/div&gt;
           &lt;div class="bottom-row-standard-box col-xs-6 col-sm-3 col-md-3 col-lg-3"&gt;
-            &lt;p class="bottom-image-box"&gt;&lt;img src="battery.png" alt="Hhaa"&gt;&lt;/p&gt;
-            &lt;p class="medium-number"&gt;3000 mAh &lt;/p&gt;
+            &lt;p class="bottom-image-box"&gt;&lt;Icon icon="battery-full fa-3x"&gt;&lt;/Icon&gt;&lt;/p&gt;
+            &lt;p class="medium-number"&gt;3000 mAh&lt;/p&gt;
             &lt;p class="small-number"&gt;Li-Ion&lt;/p&gt;
           &lt;/div&gt;
         &lt;/div&gt;
@@ -553,7 +553,7 @@ $gradients: ("ocean-blue", #2E3192, #1BFFFF)
   float: left;
 &#125;
 .blur-background&#123;
-  width: 95%;
+  max-width: 95%;
   height: 440px;
   z-index: -1;
   background-size: contain;
@@ -562,6 +562,9 @@ $gradients: ("ocean-blue", #2E3192, #1BFFFF)
   margin: 0 auto;
   display: inline-block;
   background: url(phone.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 &#125;
 .data-header&#123;
   width: 100%;
@@ -617,7 +620,7 @@ $gradients: ("ocean-blue", #2E3192, #1BFFFF)
   color: #181515;
   font-weight: bold;
 &#125;
-.medium-box img&#123;
+.medium-box svg&#123;
   width: 20px;
 &#125;
 .data-bottom-row&#123;
@@ -629,7 +632,7 @@ $gradients: ("ocean-blue", #2E3192, #1BFFFF)
   float: left;
   padding: 10px 0px;
 &#125;
-.bottom-image-box img&#123;
+.bottom-image-box svg&#123;
   height: 40px;
 &#125;
 .medium-number&#123;
