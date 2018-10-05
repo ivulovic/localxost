@@ -519,6 +519,104 @@ code{
   font-size: 17px;
 }
 
+.button{
+  padding: 10px;
+  margin: 10px 10px 10px 0px;
+  line-height: initial;
+  text-transform: uppercase;
+  outline: none;
+  border: none;
+  font-weight: bold;
+}
+
+.button-icon{
+  @extend .button;
+  padding-right: 12px;
+}
+
+.button-round{
+  @extend .button;
+  border-radius:5px;
+  line-height: 15px;
+}
+.button-round-icon{
+  @extend .button-round;
+  padding-right: 12px;
+}
+
+.button-info{
+  background: $blue;
+  color: white;
+}
+
+.button-success{
+  background: $green;
+  color: white;
+}
+
+.button-warning{
+  background: $yellow;
+  color: white;
+}
+
+.button-error{
+  background: $red;
+  color: white;
+}
+
+.button-disabled{
+  background-color: $dimGray;
+  color: white;
+  cursor: not-allowed;
+}
+
+
+.button-info-outline{
+  color: $blue;
+  background: white;
+  &:hover{
+    @extend .transition;
+    background: $blue;
+    color: white;
+  }
+}
+
+.button-success-outline{
+  color: $green;
+  background: white;
+  &:hover{
+    @extend .transition;
+    background: $green;
+    color: white;
+  }
+}
+
+.button-warning-outline{
+  color: $yellow;
+  background: white;
+  &:hover{
+    @extend .transition;
+    background: $yellow;
+    color: white;
+  }
+}
+
+.button-error-outline{
+  color: $red;
+  background: white;
+  &:hover{
+    @extend .transition;
+    background: $red;
+    color: white;
+  }
+}
+
+.button-disabled-outline{
+  @extend .button-disabled;
+  color: $gray;
+  background: white;
+}
+
 @media only screen and (max-width: 540px) {
   .medium-box{
     text-align: center;

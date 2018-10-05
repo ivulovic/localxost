@@ -22,7 +22,8 @@ export class AppComponent {
         "Color box",
         "Card",
         "Thumbnail",
-        "Product example"
+        "Product example",
+        "Buttons"
     ]},
     {topic: "Redux", sections:[
       "Redux concept",
