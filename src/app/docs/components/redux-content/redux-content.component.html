@@ -1,3 +1,115 @@
 <div class="content-title">Redux</div>
 
 <ClipboardLink id="redux-concept"></ClipboardLink>
+
+<p>Let's start from the basics.</p>
+
+<p>What is <b>state</b>?</p>
+
+<p>
+  State is an object that determines how the component will behave and render.
+  In more simplified words it's just a simple object with properties, which tells to the components what to do and what should they show.
+  Each component has own state.
+</p>
+
+<p>The key in Redux is having <b>one readonly state</b> in the application.</p>
+
+<p>
+  That means that no one can change state until they make request to the <b>store</b> to do it.
+</p>
+
+<p>
+  Store is one big storage that contains multiple states. To make request to the store you have to <b>dispatch</b> an action
+  or we can say it in the way you will hear it more often: we should make an <b>action creator</b>.
+</p>
+
+<p>
+  Action creator is just a simple object that usually has two properties: <b>type</b> and <b>payload</b>.
+  Type tells the store which is the type of the action we are dispatching and payload is the value we send along the request.
+</p>
+
+<p>
+Now imagine one counter. That counter can increase its value or decrease it.
+Simple example would be we want to <i>INCREMENT</i> our counter with they value of <i>1</i>.
+</p>
+
+<p>In this case <i>INCREMENT</i> is the type and value <i>1</i> is the payload. Let's see how would we write it.</p>
+
+<Code title="JavaScript">
+<pre>
+function INCREMENT()&#123;
+  return &#123;
+    type: "INCREMENT",
+    payload: 1
+  &#125;
+&#125;
+</pre>
+</Code>
+
+<p>Now, each action can have <b>3 side effects</b>: when it started, when it finished successfully and when it unfortunately failed. That's where <b>reducers</b> comes in.</p>
+
+<p>Here's the great definition of the reducer which you can find on the <a target="new" href="http://redux.js.org">redux.js.org</a>:</p>
+<p>
+  The reducer is a pure function that takes the previous state and an action, and returns the next state.
+  It's called a reducer because it's the type of function you would pass to <i>Array.prototype.reduce(reducer, ?initialValue)</i>.
+</p>
+
+<p>So ok. We mentioned side effects. Let's see how they look like.</p>
+
+<Code title="JavaScript">
+<pre>
+function INCREMENT()&#123; ... &#125;
+function INCREMENT_SUCCEEDED()&#123; ... &#125;
+function INCREMENT_FAILED()&#123; ... &#125;
+</pre>
+</Code>
+
+<p>Simple as that. The thing is that we call these functions reducers. Here's how.</p>
+
+<p>We need state.</p>
+
+<Code title="JavaScript">
+<pre>
+var state = &#123;
+  loading: false,
+  valueToIncrement: 0,
+  error: undefined
+&#125;
+</pre>
+</Code>
+
+<p>Also, we need to define what exactly will happen when it starts, finishes successfully or just fails.</p>
+
+<Code title="JavaScript">
+<pre>
+function INCREMENT()&#123;
+  return &#123;
+    ...state,                           // we want to keep the old state, and the replace it with the new one
+    loading: true                       // for example we want to start loading spinner
+  &#125;
+&#125;
+function INCREMENT_SUCCEEDED()&#123;
+  return &#123;
+    ...state,                          // we want to keep the old state, and the replace some parts of it with the new data. ALWAYS!
+    loading: false,                    // it's succeeded so we can stop the loading icon
+    valueToIncrement: action.payload   // we replace the old value which was 0 with the new value, which we get in payload
+  &#125;
+&#125;
+function INCREMENT_FAILED()&#123;
+    return &#123;
+    ...state,                          // we want to keep the old state, remember that.
+    loading: false,                    // stop loading, we run into an error!
+    error: action.payload              // put the error message so you can tell the user something went wrong
+  &#125;
+&#125;
+</pre>
+</Code>
+
+<p>So that's all. Later you will see real life use in React, and how to use it in Angular. This was mostly pseudo code to show you the basics. In real life we write it a bit differently.</p>
+
+<p>Let's just shortly recap it:</p>
+
+<p> <Icon icon="angle-right"></Icon> We have an main big storage called <b>store</b> which is readonly. </p>
+<p> <Icon icon="angle-right"></Icon> To change something in store we have to <b>dispatch an action</b>. </p>
+<p> <Icon icon="angle-right"></Icon> Each action can have 3 <b>effects</b>: start, success and fail. </p>
+<p> <Icon icon="angle-right"></Icon> Such cases we define and manage in the reducer. </p>
