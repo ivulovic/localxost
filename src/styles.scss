@@ -232,7 +232,6 @@ code{
 
 .code{
   pre{
-    font-family: Consolas;
     color: $dirty;
     background: $dark;
     border-radius: 0px;
@@ -669,6 +668,11 @@ code{
   @extend .button-disabled;
   color: $gray;
   background: white;
+}
+
+.content-wrapper{
+  word-break: break-word;
+  text-align: justify;
 }
 
 .no-padding{

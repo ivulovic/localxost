@@ -1,19 +1,15 @@
 <div class="col-xs-12 col-md-3 col-lg-3 sidebar-wrapper fixed-scroll ">
   <div class="no-scrollbar no-hover">
-
     <Header></Header>
-
    <div *ngFor="let page of content">
      <div class="scroll-header">{{page.topic}}</div>
      <div class="scroll-content">
        <a class="sidebar-link" *ngFor="let section of page.sections; let i = index" routerLink="docs/{{page.topic.toLowerCase()}}/{{hyphen(section)}}">{{section}}</a>
      </div>
    </div>
-
   </div>
-
 </div>
-<div class="col-xs-12 col-md-9 col-lg-9 pull-right">
+<div class="col-xs-12 col-md-9 col-lg-9 pull-right content-wrapper">
   <Message></Message>
   <router-outlet></router-outlet>
 </div>
