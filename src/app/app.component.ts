@@ -27,21 +27,17 @@ export class AppComponent {
     ]},
     {topic: "Redux", sections:[
       "Redux concept",
-    ]},
+      "Redux implementation",
+      "Connect React and Redux",
+      "Angular and NgRx"
+      ]},
     {topic: "React", sections:[
-      "Dumb vs Smart components",
-      "Create React component",
-      "Set up React router",
+      "React components",
       "React Lifecycle methods",
-      "React and Redux"
+      "Fade animation on route change",
     ]},
     {topic:"Angular",sections:[
-       "Create Angular component",
-       "Set up Angular router",
-       "Set up Angular guards",
-       "Set up Angular and Redux Store",
-       "Route intercepting with Redux Store Router",
-        "Combine guards with Redux",
+       "Guards with NgRx Store"
       ]},
     {topic: "NodeJS", sections:[
       "Set up an NodeJS server",

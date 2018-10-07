@@ -112,4 +112,794 @@ function INCREMENT_FAILED()&#123;
 <p> <Icon icon="angle-right"></Icon> We have an main big storage called <b>store</b> which is readonly. </p>
 <p> <Icon icon="angle-right"></Icon> To change something in store we have to <b>dispatch an action</b>. </p>
 <p> <Icon icon="angle-right"></Icon> Each action can have 3 <b>effects</b>: start, success and fail. </p>
-<p> <Icon icon="angle-right"></Icon> Such cases we define and manage in the reducer. </p>
+<p> <Icon icon="angle-right"></Icon> Such cases we define and manage in the <b>reducers</b>. </p>
+
+
+<!-- Redux implementation-->
+
+<ClipboardLink id="redux-implementation"></ClipboardLink>
+
+<p>
+  To start working with Redux, and follow this tutorial, you will have to install following dependencies:
+</p>
+
+<Code title="cmd">
+<pre>
+npm install --save redux redux-promise-middleware redux-thunk redux-logger
+</pre>
+</Code>
+
+<p>Our folder structure will be simple.</p>
+<Code title="Redux Implementation | Folder Structure ">
+<pre>
+<Icon icon="folder-open-o"></Icon> store
+  <Icon icon="file-o"></Icon> store.js
+  <Icon icon="folder-open-o"></Icon> actions
+    <Icon icon="file-o"></Icon> post.actions.js
+  <Icon icon="folder-open-o"></Icon> reducers
+    <Icon icon="file-o"></Icon> post.reducer.js
+</pre>
+</Code>
+
+<p>Let's start from <b>store.js</b> file.</p>
+
+<Code title="store.js">
+<pre>
+import &#123;createStore, combineReducers, applyMiddleware&#125; from "redux";
+import promise from "redux-promise-middleware";
+import logger from "redux-logger";
+import thunk from "redux-thunk";
+import postReducer from "./reducers/post.reducer";
+
+const error = (store) => (next) => (action) => &#123;                     // you can create your custom middleware
+  try&#123;next(action)&#125;                                                  // this is just example how to do it
+  catch(err)&#123;console.log("Caught an exception: ", err)&#125;              // and it's not required
+&#125;
+
+const store = createStore(combineReducers(&#123;postReducer&#125;), &#123;&#125;, applyMiddleware(promise(),thunk, logger, error));
+
+export default store;
+</pre>
+</Code>
+
+<p>And that's all for this file. Code is pretty clean and readable. We created our custom middleware called <b>error</b> and it will trigger
+when an error occurs. <b>logger</b> middleware gives us nice and colorful tracking of store, in our console. There we can see actions dispatched,
+previous state, and next state.</p>
+
+<p>Let's create reducer now.</p>
+
+<Code title="post.reducer.js">
+<pre>
+const postReducer = (state = &#123;
+  posts:[],
+  post: &#123;&#125;,
+  error: null
+&#125;, action) => &#123;
+  switch(action.type)&#123;
+    case "GET_ALL_POSTS":
+      state = &#123; ...state &#125;
+      break;
+    case "GET_ALL_POSTS_FULFILLED":
+      state = &#123; ...state, posts:action.payload.data&#125;
+      break;
+    case "GET_ALL_POSTS_REJECTED":
+      state = &#123; ...state, error:action.payload&#125;
+      break;
+    case "GET_POST":
+        state = &#123;	...state &#125;
+        break;
+    case "GET_POST_FULFILLED":
+        state = &#123; ...state, post:action.payload.data&#125;
+        break;
+    case "GET_POST_REJECTED":
+        state = &#123; ...state, error:action.payload&#125;
+        break;
+    default: break;
+  &#125;
+  return state;
+&#125;
+export default postReducer;
+</pre>  
+</Code>
+
+<p>Since we use <b>promise()</b> in our <b>applyMiddleware</b> method, in <b>store.js</b> file,
+  we have to use keywords <i>FULFILLED</i> and <i>REJECTED</i>.
+   </p>
+<p>So for example for action GET_LOADED_POSTS you will have GET_LOADED_POSTS_FULFILLED and GET_LOADED_POSTS_REJECTED.</p>
+
+<p>And now let's simply create an action.</p>
+
+<Code title="post.actions.js">
+<pre>
+import axios from "axios";
+
+export function getAllPosts() &#123;
+    const request = axios.get(`api/posts`);
+    return &#123;
+        type: "GET_ALL_POSTS",
+        payload: request
+    &#125;
+&#125;
+export function getPost(id) &#123;
+    const request = axios.get(`api/posts/$&#123;id&#125;`);
+    return &#123;
+        type: "GET_POST",
+        payload: request
+    &#125;
+&#125;
+</pre>
+</Code>
+
+<p>Here we use <b>axios</b> to fetch our data from the server but you can use any dependency you like to do it. Notice that in the payload
+we return a request as payload. That means we return a promise from http request. That promise will either be <b>FULFILLED</b> or <b>REJECTED</b>,
+so we handle both cases in our reducer.</p>
+
+
+<!-- Connect React and Redux -->
+
+<ClipboardLink id="connect-react-and-redux"></ClipboardLink>
+
+<p>
+  To start working with Redux in React, you will have to install following dependencies:
+</p>
+
+<Code title="cmd">
+<pre>
+npm install --save react-redux
+</pre>
+</Code>
+
+<div>
+  Our folder structure will be simple. This folder structure depends on how you set it in your webpack config. It might be different but
+  the concept is the same.
+<Code title="Connect React and Redux | Folder Structure ">
+<pre>
+<Icon icon="folder-open-o"></Icon> src
+  <Icon icon="folder-open-o"></Icon> app
+    <Icon icon="file-o"></Icon> index.js
+  <Icon icon="folder-open-o"></Icon> containers
+    <Icon icon="file-o"></Icon> App.js
+  <Icon icon="folder-open-o"></Icon> components
+    <Icon icon="file-o"></Icon> Posts.js
+    <Icon icon="file-o"></Icon> Post.js
+  <Icon icon="folder-open-o"></Icon> store
+    <Icon icon="file-o"></Icon> store.js
+    <Icon icon="folder-open-o"></Icon> actions
+      <Icon icon="file-o"></Icon> post.actions.js
+    <Icon icon="folder-open-o"></Icon> reducers
+      <Icon icon="file-o"></Icon> post.reducer.js
+</pre>
+</Code>
+</div>
+
+<p>Let's start from index.js</p>
+
+<Code title="app/index.js">
+<pre>
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "../containers/App";
+import store from "../store/store";
+import &#123;Provider&#125; from "react-redux";
+
+ReactDOM.render(
+  &lt;Provider store=&#123;store&#125;&gt;
+    &lt;App /&gt;
+  &lt;/Provider&gt;, document.getElementById("root")
+);
+</pre>  
+</Code>
+
+<p>Here we added a Provider and assigned store to it. Look at it as a wrapper for our AppComponent which gives us access to the store.</p>
+
+<p>Let's take a look at our App.js file.</p>
+
+<Code title="containers/App.js">
+<pre>
+import React from "react";
+import &#123;Route, Switch, BrowserRouter&#125; from "react-router-dom";
+import &#123; browserHistory &#125; from 'react-router';
+import Menu from "../components/Menu";
+import Posts from "../components/Posts";
+import Post from "../components/Post";
+  
+export default class App extends React.Component&#123;
+  render()&#123;
+    return(
+    &lt;BrowserRouter history=&#123;browserHistory&#125;&gt;
+      &lt;div&gt;
+        &lt;Menu /&gt;
+        &lt;Switch&gt;
+          &lt;Route exact path="/posts" component=&#123;Posts&#125;/&gt;
+          &lt;Route path="/posts/:id" component=&#123;Post&#125; &#123;...this.props.match&#125;/&gt;
+        &lt;/Switch&gt;
+      &lt;/div&gt;
+    &lt;/BrowserRouter&gt;
+    );
+  &#125;
+&#125;  
+</pre>  
+</Code>
+
+<p>Here we just set up basic routing. Our app will have page with all posts, and page with post we selected.</p>
+
+<p>Let's have a look at Posts.js file.</p>
+
+<Code title="components/Posts.js">
+<pre>
+import React from "react";
+import &#123;NavLink&#125; from "react-router-dom";
+import &#123;connect&#125; from "react-redux";
+import &#123;getAllPosts&#125; from "../store/actions/post.actions";
+
+class Posts extends React.Component&#123;
+    componentDidMount()&#123;
+        this.props.getAllPosts();
+    &#125;
+    render()&#123;
+        var postLinks = this.props.post.posts.map((post, index) =&gt; (
+            &lt;div className=&#123;"link"&#125; key=&#123;index&#125;&gt;
+                &lt;NavLink to=&#123;`/posts/$&#123;post.id&#125;`&#125;&gt;&#123;post.title&#125;&lt;/NavLink&gt;
+            &lt;/div&gt;
+        ));
+        return (
+            &lt;div&gt;
+                &lt;h3&gt;Your Posts:&lt;/h3&gt;
+                &#123;postLinks&#125;
+            &lt;/div&gt;
+        );
+    &#125;
+&#125;
+const mapStateToProps = (state) =&gt; &#123;
+    return &#123;
+        post: state.postReducer
+    &#125;;
+&#125;;
+const mapDispatchToProps = (dispatch) =&gt; &#123;
+    return &#123;
+        getAllPosts:()=&gt;&#123;
+            dispatch(getAllPosts());
+        &#125;
+    &#125;
+&#125;
+export default connect(mapStateToProps, mapDispatchToProps)(Posts);
+</pre>
+</Code>
+
+<p>Here we see two new methods <b>mapStateToProps</b> and <b>mapDispatchToProps</b>. Both do what their name says they do.
+  </p>
+
+<p> <b>mapStateToProps</b> takes state we defined (post) and puts it to the props, so we can access to it through <b>this.props.post</b>.</p>
+
+<p> <b>mapDispatchToProps</b> takes actions we defined and puts it to the props, so we can access to it through <b>this.props.getAllPosts</b>.</p>
+
+<p>At the end we just connect these two and export it with the Posts component.</p>
+
+<br/>
+
+<p>Let's have a look at Post.js file. There we show the data, depending from the link we clicked on /posts page.</p>
+
+<Code title="components/Post.js">
+<pre>
+import React from "react";
+import &#123;getPost&#125; from "../store/actions/post.actions";
+import &#123;connect&#125; from "react-redux";
+
+class Post extends React.Component&#123;
+    componentDidMount()&#123;
+        this.props.getPost(this.props.match.params.id);
+    &#125;
+    render()&#123;
+        return (
+            &lt;div&gt;
+                &lt;h1&gt;&#123;this.props.post.post.title&#125;&lt;/h1&gt;
+                &lt;p&gt;&#123;this.props.post.post.body&#125;&lt;/p&gt;
+            &lt;/div&gt;
+        );
+    &#125;
+&#125;
+const mapStateToProps = (state) =&gt; &#123;
+    return &#123;
+        post: state.postReducer
+    &#125;;
+&#125;;
+const mapDispatchToProps = (dispatch) =&gt; &#123;
+    return &#123;
+        getPost:(id)=&gt;&#123;
+            dispatch(getPost(id));
+        &#125;
+    &#125;;
+&#125;;
+export default connect(mapStateToProps, mapDispatchToProps)(Post);
+</pre>
+</Code>
+
+<ClipboardLink id="angular-and-ngrx"></ClipboardLink>
+
+<p>Here you will see different style of working in Redux. NgRx Store implements the Redux pattern using the well known RxJS observables of Angular 2. So let's dive into it.</p>
+
+<p>Install following dependencies.</p>
+
+<Code title="cmd">
+<pre>
+npm install --save @ngrx/effects @ngrx/router-store @ngrx/store @ngrx/store-devtools  
+</pre>
+</Code>
+
+<p>Let's see folder structure first. We are inside app folder. We will have main AppModule and we will have ArticleModule in the app/articles.
+  We will have two separate <i>store</i> folders in both module. Store from the AppModule we will provide forRoot, and ArticleModule will
+be loaded eagerly.</p>
+<Code title="Angular and NgRx | Folder Structure ">
+<pre>
+<Icon icon="folder-open-o"></Icon> app
+  <Icon icon="file-o"></Icon> app.module.ts
+  <Icon icon="folder-open-o"></Icon> store
+    <Icon icon="folder-open-o"></Icon> utils
+      <Icon icon="file-o"></Icon> custom-serializer.util.ts
+      <Icon icon="file-o"></Icon> entity.util.ts
+    <Icon icon="folder-open-o"></Icon> reducers
+      <Icon icon="file-o"></Icon> index.ts
+  <Icon icon="folder-open-o"></Icon> articles
+    <Icon icon="file-o"></Icon> articles.module.ts
+    <Icon icon="folder-open-o"></Icon> store
+      <Icon icon="folder-open-o"></Icon> actions
+        <Icon icon="file-o"></Icon> article.actions.ts
+        <Icon icon="file-o"></Icon> index.ts
+      <Icon icon="folder-open-o"></Icon> effects
+        <Icon icon="file-o"></Icon> article.effects.ts
+        <Icon icon="file-o"></Icon> index.ts
+      <Icon icon="folder-open-o"></Icon> reducers
+        <Icon icon="file-o"></Icon> article.reducers.ts
+        <Icon icon="file-o"></Icon> index.ts
+      <Icon icon="folder-open-o"></Icon> selectors
+        <Icon icon="file-o"></Icon> article.selectors.ts
+        <Icon icon="file-o"></Icon> index.ts
+      <Icon icon="file-o"></Icon> index.ts
+</pre>
+</Code>
+
+
+<p>Now import them into <b>app.module</b>, root module of our Angular app.</p>
+
+<Code title="app.module.ts">
+<pre>
+import &#123;StoreModule&#125; from '@ngrx/store';
+import &#123;EffectsModule&#125; from '@ngrx/effects';
+import &#123;StoreDevtoolsModule&#125; from '@ngrx/store-devtools';
+import &#123;StoreRouterConnectingModule, RouterStateSerializer&#125; from '@ngrx/router-store';
+import &#123;reducers, metaReducers&#125; from './store/reducers';
+import &#123;CustomSerializer&#125; from './store/utils/custom-serializer.util';
+
+@NgModule(&#123;
+  declarations: [...],
+  imports: [
+    ...
+    StoreModule.forRoot(reducers, &#123;metaReducers&#125;),
+    StoreRouterConnectingModule.forRoot(&#123;stateKey: "router"&#125;),
+    EffectsModule.forRoot([]),
+    StoreDevtoolsModule.instrument(),
+  ],
+  providers: [
+  ...,
+  &#123;
+    provide: RouterStateSerializer,
+    useClass: CustomSerializer
+  &#125;
+  ],
+  bootstrap: [AppComponent]
+&#125;)
+export class AppModule &#123;&#125;  
+</pre>  
+</Code>
+
+<p>Custom serializer is just a class that returns an object with params, queryParams, and url instead of whole bunch of data we don't need. This is not required to do but its useful.</p>
+
+<Code title="store/utils/custom-serializer.util.ts">
+<pre>
+import &#123;RouterStateUrl&#125; from '../reducers/';
+import &#123;ActivatedRouteSnapshot, RouterStateSnapshot&#125; from '@angular/router';
+import * as fromRouter from '@ngrx/router-store';
+
+export class CustomSerializer implements fromRouter.RouterStateSerializer&lt;RouterStateUrl&gt;&#123;
+  serialize(routerState: RouterStateSnapshot): RouterStateUrl &#123;
+    const &#123;url&#125; = routerState;
+    const &#123; queryParams &#125; = routerState.root;
+    let state: ActivatedRouteSnapshot= routerState.root;
+    while(state.firstChild)&#123;
+      state = state.firstChild;
+    &#125;
+    const &#123; params &#125; = state;
+    return &#123;url, queryParams, params&#125;;
+  &#125;
+&#125;  
+</pre>  
+</Code>
+
+<p>Now let's create our reducer for our router state into store/reducers folder.</p>
+
+<Code title="store/reducers/index.ts">
+<pre>
+import * as fromRouter from '@ngrx/router-store';
+import &#123;ActionReducer, ActionReducerMap, createFeatureSelector, MetaReducer&#125; from '@ngrx/store';
+import &#123;environment&#125; from '../../../environments/environment';
+import &#123;Params&#125; from '@angular/router';
+
+export interface  RouterStateUrl &#123;
+  url: string,
+  queryParams: Params,
+  params: Params
+&#125;
+export interface State &#123;
+  router: fromRouter.RouterReducerState,
+&#125;
+export const reducers: ActionReducerMap&lt;State&gt; = &#123;
+  router: fromRouter.routerReducer,
+&#125;;
+export function logger(reducer: ActionReducer&lt;State&gt;): ActionReducer&lt;State&gt; &#123;
+  return function(state: State, action: any): State &#123;
+    console.log('state', state);
+    console.log('action', action);
+    return reducer(state, action);
+  &#125;;
+&#125;
+export const metaReducers: MetaReducer&lt;State&gt;[] = !environment.production ? []  : [];
+export const getRouterState = createFeatureSelector&lt;fromRouter.RouterReducerState&lt;RouterStateUrl&gt;&gt;("router");
+</pre>  
+</Code>
+
+<p>That's all for our app.module. Now let's go to the <b>articles</b> module and see how is data lazy loaded. </p>
+
+<p>To do so, we create <b>featureSelector</b> and instead <b>forRoot</b> we put there <b>forFeature</b>.</p>
+
+<p>
+  Code is organized a bit differently.
+</p>
+<p>  We have 4 folders: <b>reducers</b>, <b>actions</b>, <b>effects</b> and <b>selectors</b>.</p>
+<p>
+
+  If you read upper sections <b>reducers</b> are already known to you, if they are not go to the <button class="button-icon button-link-outline no-margin" (click)="scrollTo('redux-implementation')"><Icon icon="paper-plane"></Icon>  Redux implementation</button> section and read it.
+  <b>Actions</b> in NgRx don't call directly api through the httpClient, in our case we used axios above.
+  Here we call service to send request through HttpClient. In actions we only define type of action we should dispatch.
+  In <b>effects</b> we inject and call the service and use RxJS. Selectors are just a simple methods that return us part of a state.
+  For example if we need only loading status we will create <i>loadingSelector</i> and then it will access to the state and take the data from <i>state.loading</i>.
+</p>
+
+<p>Let's start from article actions. </p>
+
+<Code title="articles/store/actions/article.actions">
+<pre>
+import &#123;Action&#125; from '@ngrx/store';
+
+export const LOAD_ARTICLE = "[Articles] Load Article";
+export const LOAD_ARTICLE_SUCCESS = "[Articles] Load Article Success";
+export const LOAD_ARTICLE_FAILURE = "[Articles] Load Article Failure";
+export const LOAD_ARTICLES = "[Articles] Load Articles";
+export const LOAD_ARTICLES_SUCCESS = "[Articles] Load Articles Success";
+export const LOAD_ARTICLES_FAILURE = "[Articles] Load Articles Failure";
+  
+export class LoadArticle implements Action &#123;
+  readonly type = LOAD_ARTICLE;
+  constructor(public payload: any) &#123;&#125;
+&#125;
+export class LoadArticleSuccess implements Action &#123;
+  readonly type = LOAD_ARTICLE_SUCCESS;
+  constructor(public payload: any) &#123;&#125;
+&#125;
+export class LoadArticleFailure implements Action &#123;
+  readonly type = LOAD_ARTICLE_FAILURE;
+  constructor(public payload: any) &#123;&#125;
+&#125;
+export class LoadArticles implements Action&#123;
+  readonly type = LOAD_ARTICLES;
+&#125;
+export class LoadArticlesSuccess implements Action&#123;
+  readonly type = LOAD_ARTICLES_SUCCESS;
+  constructor(public payload: any[])&#123;&#125;
+&#125;
+export class LoadArticlesFailure implements Action&#123;
+  readonly type = LOAD_ARTICLES_FAILURE;
+  constructor(public payload: any)&#123;&#125;
+&#125;
+
+export type ArticleAction = LoadArticle | LoadArticleSuccess | LoadArticleFailure | LoadArticles | LoadArticlesSuccess | LoadArticlesFailure;
+</pre>
+</Code>
+<p>In this case we are not exporting functions but classes, and depending from our needs we add to constructor <b>payload</b>.</p>
+<p>What's payload? Payload is object we send along the request. To send a request to load articles from the server
+we don't need anything to send, we simply call api like <i>httpClient.get(`api/articles`)</i>. When we receive a response we need to accept it in some
+variable and that's why we put <i>payload:any[]</i>, because we will get array or articles.</p>
+<p>In a similar way we are fetching single article. We request it by sending some ID: <i>httpClient.get(`api/articles/$&#123;id&#125;`)</i>.</p>
+<p>Making constants and exporting in this case is useful because we will use those in <b>effects</b>.
+  Exporting readonly type gives us opportunity to access to action from the <b>reducer</b>, and here's how.</p>
+
+<p>Export this file through <b>index.ts</b>.</p>
+
+<Code title="articles/store/actions/index.ts">
+<pre>
+export * from "./article.actions";
+</pre>
+</Code>
+
+<p>Let's dive into reducer.</p>
+
+<Code title="articles/store/reducers/article.reducer.ts">
+<pre>
+import * as ArticleActions from '../actions/article.actions'
+import &#123;mapToEntity, mapToEntityList, removeEntity, updateEntity&#125; from '../../../store/utils/entity.utils';
+
+export interface ArticleState &#123;
+  entities: &#123;[id:number]: any&#125;,
+  loaded: boolean;
+  loading: boolean;
+  selectedId: number
+&#125;
+export const initialState: ArticleState = &#123;
+  entities: &#123;&#125;,
+  loaded: false,
+  loading: false,
+  selectedId: undefined
+&#125;;
+export const articleReducer = (state = initialState, action: ArticleActions.ArticleAction) : ArticleState =&gt; &#123;
+  switch (action.type)&#123;
+    case ArticleActions.LOAD_ARTICLES:
+      return &#123;
+        ...state,
+        loading: true
+      &#125;;
+    case ArticleActions.LOAD_ARTICLES_SUCCESS:
+      return &#123;
+        ...state,
+        loading: false,
+        loaded: true,
+        entities: mapToEntityList(state, action.payload, 'articleId')
+      &#125;;
+    case ArticleActions.LOAD_ARTICLES_FAILURE:
+      return &#123;
+        ...state,
+        loading: false,
+        loaded: false
+      &#125;;
+    case ArticleActions.LOAD_ARTICLE:
+      return &#123;
+        ...state,
+        loading: true
+      &#125;;
+    case ArticleActions.LOAD_ARTICLE_SUCCESS:
+      return &#123;
+        ...state,
+        loading: false,
+        loaded: true,
+        entities: mapToEntity(action.payload, 'articleId')
+      &#125;;
+    case ArticleActions.LOAD_ARTICLE_FAILURE:
+      return &#123;
+        ...state,
+        loading: false,
+        loaded: false
+      &#125;;
+    default: return state;
+  &#125;
+&#125;;
+
+export const getArticleEntities = (state: ArticleState) =&gt; state.entities;
+export const getArticlesLoading = (state: ArticleState) =&gt; state.loading;
+export const getArticlesLoaded = (state: ArticleState) =&gt; state.loaded;
+</pre>
+</Code>
+
+<p>
+  Here we see two new methods <b>mapToEntityList</b> and <b>mapToEntity</b>. What that methods do is that they map response you get to
+  <b>[key:int]:value</b> object. So for example if we get response from the server like:
+  <Code title="JavaScript">
+<pre>
+[
+  &#123;id:1, title:"Hello"&#125;,
+  &#123;id:2, title:"Hello again."&#125;
+]
+</pre>
+  </Code>
+</p>
+<p>
+  <b>mapToEntityList</b>
+  will convert that array to array of objects whose key is id of the response:
+  <Code title="JavaScript">
+<pre>
+[
+  1: &#123;id:1, title:"Hello"&#125;,
+  2: &#123;id:2, title:"Hello again"&#125;
+]
+</pre>
+  </Code>
+  <b>mapToEntity</b> does the same, just for a single object, not array.
+</p>
+<p>These methods will be implemented in store/utils/entity.utils.ts file</p>
+
+<Code title="store/utils/entity.utils.ts">
+<pre>
+export function mapToEntityList (state, payload, key)&#123;
+  if(!state || !payload || !key || !payload.length) return &#123;&#125;;
+  const entities = payload.reduce((entities: &#123;[id: number]: any&#125;, element: any)=>&#123;
+    return &#123;
+      ...entities,
+      [element[key]]: element
+    &#125;
+  &#125;, &#123;...state.entities&#125;);
+  return entities;
+&#125;
+export function mapToEntity (payload, key)&#123;
+  if(!payload || !key) return &#123;&#125;;
+  return  &#123; [payload[key]] : payload &#125;
+&#125;
+</pre>
+</Code>
+
+<p>In this way we don't have to iterate through bunch objects.</p>
+<p> Imagine we have list with 50000 articles and we want to select 35892nd.
+  In this way we access to that object instantly with this.state.articles[35892]. Though in this section this is not a case, because we will use URL like single source of truth.</p>
+
+
+<p>Don't forget to export it the <b>index.ts</b> file.</p>
+
+<Code title="articles/store/reducers/index.ts">
+<pre>
+import &#123;ActionReducerMap, createFeatureSelector&#125; from '@ngrx/store';
+import * as articleReducer from "./article.reducer";
+
+export interface State &#123;
+  articles: articleReducer.ArticleState,
+&#125;
+
+export const reducers: ActionReducerMap&lt;State&gt; = &#123;
+  articles: articleReducer.articleReducer,
+&#125;;
+
+// Main state selector that is called in other selectors and in article.module.ts
+// All selectors use this main state and making selectors from it!
+
+export const articleModuleState = createFeatureSelector&lt;State&gt;("articleModuleState");
+</pre>
+</Code>
+
+<p>Let's continue. Next step is to show how to deal with <b>effects</b>.</p>
+
+<Code title="articles/store/effects/article.effects.ts">
+<pre>
+import &#123;Injectable&#125; from '@angular/core';
+import &#123;Effect, Actions&#125; from '@ngrx/effects';
+import * as ArticleActions  from "../actions/article.actions";
+import &#123;catchError, map, switchMap&#125; from 'rxjs/operators';
+import &#123;of&#125; from 'rxjs/observable/of';
+
+@Injectable()
+export class ArticleEffects &#123;
+  constructor(private actions: Actions, private articleService: ArticleService)&#123;&#125;
+  @Effect()
+  loadArticles = this.actions.ofType(ArticleActions.LOAD_ARTICLES).pipe(
+    switchMap(() =&gt; &#123;
+      return this.articleService.getArticles().pipe(
+        map((result) =&gt; new ArticleActions.LoadArticlesSuccess(result)),
+        catchError((error) =&gt; of(new ArticleActions.LoadArticlesFailure(error)))
+      )
+    &#125;)
+  );
+  @Effect()
+  loadArticle = this.actions.ofType(ArticleActions.LOAD_ARTICLE).pipe(
+    switchMap((article:any) =&gt; &#123;
+      return this.articleService.getArticle(article.payload && article.payload.articleId).pipe(
+        map((result) =&gt; new ArticleActions.LoadArticleSuccess(result)),
+        catchError((error) =&gt; of(new ArticleActions.LoadArticleFailure(error)))
+      )
+    &#125;)
+  );
+&#125;  
+</pre>  
+</Code>
+
+<p>Export it the <b>index.ts</b> file.</p>
+
+<Code title="articles/store/effects/index.ts">
+<pre>
+import &#123;ArticleEffects&#125; from './article.effects';
+export const effects: any[] = [ArticleEffects];
+export * from "./article.effects";
+</pre>
+</Code>
+
+<p>Pretty easy. We inject a service which is under current module, we invoke it by sending data we received
+  through payload we were making in actions file and then depending
+  from the result we return new action depending if we run into an error or success.</p>
+
+<p>Let's see how selectors work.</p>
+
+<Code title="articles/store/selectors/article.selectors.ts">
+<pre>
+import &#123;State&#125; from '../reducers/index';
+import &#123;createSelector&#125; from '@ngrx/store';
+import * as articleReducer from '../reducers/article.reducer';
+import &#123;articleModuleState&#125; from "../reducers";
+import &#123;getRouterState&#125; from '../../../store/reducers';
+
+export const articlesState = createSelector(articleModuleState, (state: State) =&gt; state.articles);
+export const getArticleEntities = createSelector(articlesState, articleReducer.getArticleEntities);
+export const getAllArticles = createSelector(getArticleEntities, (entities)=&gt;&#123;
+  return Object.keys(entities).map((articleId) =&gt; entities[parseInt(articleId,10)]);
+&#125;);
+export const getArticlesLoading = createSelector(articlesState, articleReducer.getArticlesLoading);
+export const getArticlesLoaded = createSelector(articlesState, articleReducer.getArticlesLoaded);
+export const getSelectedArticle = createSelector(getArticleEntities, getRouterState, (entities, router):any=&gt;&#123;
+    return router.state && entities[router.state.params.articleId];
+&#125;);
+</pre>
+</Code>
+
+<p>Don't forget to export it the <b>index.ts </b> file.</p>
+
+<Code title="articles/store/selectors/index.ts">
+<pre>
+export * from "./article.selectors";
+</pre>
+</Code>
+
+<p>Code is pretty readable. First we access to state, then we getting part by part slices of articlesState.</p>
+<div>
+  Notice the last selector.
+  In that one we get the routerState which is not under this ArticleModule, but in the root, under AppModule.
+  Now from that routerState we can get any data which is in url. In that way when we run into a route like <b>/articles/:id</b>
+  we can easily get that article by calling this selector, which will take that ID and then return to the component entities[ID] entity data.
+</div>
+
+<p>The only thing left is to add this data to the <b>article.module.ts</b> file, so the components know what to work with.</p>
+
+<Code title="articles/article.module.ts">
+<pre>
+import &#123; NgModule &#125; from '@angular/core';
+import &#123; CommonModule &#125; from '@angular/common';
+import &#123;StoreModule&#125; from '@ngrx/store';
+import &#123;EffectsModule&#125; from '@ngrx/effects';
+import &#123; reducers, effects &#125; from "./store";
+import &#123;RouterModule&#125; from '@angular/router'; 
+@NgModule(&#123;
+  imports: [
+    CommonModule,
+    RouterModule,
+    StoreModule.forFeature('articleModuleState', reducers),
+    EffectsModule.forFeature(effects)
+  ],
+  declarations: [...],
+  exports: [...],
+  providers: [ArticleService]
+&#125;)
+export class ArticlesModule &#123;&#125;  
+</pre>  
+</Code>
+
+<p>As we said this module is lazy loaded, so that's why we want that state loads in the same way. That's why we use <b>forFeature</b>.</p>
+
+<p>Now to connect it to the component you should go to the component and inject store like this.</p>
+
+<Code title="articles/components/articles/article.component.ts">
+<pre>
+import &#123; Component, OnInit, ViewEncapsulation &#125; from '@angular/core';
+import &#123;Observable&#125; from 'rxjs';
+import * as store from "../../store/index";
+import &#123;Store&#125; from '@ngrx/store';
+import &#123;Router&#125; from '@angular/router';
+
+@Component(&#123;
+  selector: 'Articles',
+  template: `Hello world from Articles!`,
+  encapsulation: ViewEncapsulation.None
+&#125;)
+export class ArticlesComponent implements OnInit &#123;
+  articles: Observable&lt;any[]&gt;;
+  constructor(private store: Store&lt;store.State&gt;, private router:Router) &#123; &#125;
+  ngOnInit() &#123;
+    this.articles = this.store.select(store.getAllArticles);
+  &#125;
+&#125;
+</pre>
+</Code>
+
+<p>Here you saw how to implement NgRx and connect it to the the component that is lazy loaded. In a similar way we would use
+any other selector. For example when user navigates to the page <b>/articles/:id</b> we should get that article with our prepared selector
+<b>getSelectedArticle</b>, with help of the route param. We don't make any request, we just take article from the loaded entities.</p>
