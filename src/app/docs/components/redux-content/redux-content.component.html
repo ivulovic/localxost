@@ -30,10 +30,10 @@
 
 <p>
 Now imagine one counter. That counter can increase its value or decrease it.
-Simple example would be we want to <i>INCREMENT</i> our counter with they value of <i>1</i>.
+Simple example would be we want to <b>INCREMENT</b> our counter with they value of <b>1</b>.
 </p>
 
-<p>In this case <i>INCREMENT</i> is the type and value <i>1</i> is the payload. Let's see how would we write it.</p>
+<p>In this case <b>INCREMENT</b> is the type and value <b>1</b> is the payload. Let's see how would we write it.</p>
 
 <Code title="JavaScript">
 <pre>
@@ -51,7 +51,7 @@ function INCREMENT()&#123;
 <p>Here's the great definition of the reducer which you can find on the <a target="new" href="http://redux.js.org">redux.js.org</a>:</p>
 <p>
   The reducer is a pure function that takes the previous state and an action, and returns the next state.
-  It's called a reducer because it's the type of function you would pass to <i>Array.prototype.reduce(reducer, ?initialValue)</i>.
+  It's called a reducer because it's the type of function you would pass to <b>Array.prototype.reduce(reducer, ?initialValue)</b>.
 </p>
 
 <p>So ok. We mentioned side effects. Let's see how they look like.</p>
@@ -199,11 +199,11 @@ const postReducer = (state = &#123;
   return state;
 &#125;
 export default postReducer;
-</pre>  
+</pre>
 </Code>
 
 <p>Since we use <b>promise()</b> in our <b>applyMiddleware</b> method, in <b>store.js</b> file,
-  we have to use keywords <i>FULFILLED</i> and <i>REJECTED</i>.
+  we have to use keywords <b>FULFILLED</b> and <b>REJECTED</b>.
    </p>
 <p>So for example for action GET_LOADED_POSTS you will have GET_LOADED_POSTS_FULFILLED and GET_LOADED_POSTS_REJECTED.</p>
 
@@ -249,9 +249,10 @@ npm install --save react-redux
 </pre>
 </Code>
 
-<div>
+<p>
   Our folder structure will be simple. This folder structure depends on how you set it in your webpack config. It might be different but
-  the concept is the same.
+  the concept is the same.</p>
+
 <Code title="Connect React and Redux | Folder Structure ">
 <pre>
 <Icon icon="folder-open-o"></Icon> src
@@ -270,7 +271,6 @@ npm install --save react-redux
       <Icon icon="file-o"></Icon> post.reducer.js
 </pre>
 </Code>
-</div>
 
 <p>Let's start from index.js</p>
 
@@ -287,7 +287,7 @@ ReactDOM.render(
     &lt;App /&gt;
   &lt;/Provider&gt;, document.getElementById("root")
 );
-</pre>  
+</pre>
 </Code>
 
 <p>Here we added a Provider and assigned store to it. Look at it as a wrapper for our AppComponent which gives us access to the store.</p>
@@ -302,7 +302,7 @@ import &#123; browserHistory &#125; from 'react-router';
 import Menu from "../components/Menu";
 import Posts from "../components/Posts";
 import Post from "../components/Post";
-  
+
 export default class App extends React.Component&#123;
   render()&#123;
     return(
@@ -317,8 +317,8 @@ export default class App extends React.Component&#123;
     &lt;/BrowserRouter&gt;
     );
   &#125;
-&#125;  
-</pre>  
+&#125;
+</pre>
 </Code>
 
 <p>Here we just set up basic routing. Our app will have page with all posts, and page with post we selected.</p>
@@ -422,12 +422,12 @@ export default connect(mapStateToProps, mapDispatchToProps)(Post);
 
 <Code title="cmd">
 <pre>
-npm install --save @ngrx/effects @ngrx/router-store @ngrx/store @ngrx/store-devtools  
+npm install --save @ngrx/effects @ngrx/router-store @ngrx/store @ngrx/store-devtools
 </pre>
 </Code>
 
 <p>Let's see folder structure first. We are inside app folder. We will have main AppModule and we will have ArticleModule in the app/articles.
-  We will have two separate <i>store</i> folders in both module. Store from the AppModule we will provide forRoot, and ArticleModule will
+  We will have two separate <b>store</b> folders in both module. Store from the AppModule we will provide forRoot, and ArticleModule will
 be loaded eagerly.</p>
 <Code title="Angular and NgRx | Folder Structure ">
 <pre>
@@ -488,8 +488,8 @@ import &#123;CustomSerializer&#125; from './store/utils/custom-serializer.util';
   ],
   bootstrap: [AppComponent]
 &#125;)
-export class AppModule &#123;&#125;  
-</pre>  
+export class AppModule &#123;&#125;
+</pre>
 </Code>
 
 <p>Custom serializer is just a class that returns an object with params, queryParams, and url instead of whole bunch of data we don't need. This is not required to do but its useful.</p>
@@ -511,8 +511,8 @@ export class CustomSerializer implements fromRouter.RouterStateSerializer&lt;Rou
     const &#123; params &#125; = state;
     return &#123;url, queryParams, params&#125;;
   &#125;
-&#125;  
-</pre>  
+&#125;
+</pre>
 </Code>
 
 <p>Now let's create our reducer for our router state into store/reducers folder.</p>
@@ -544,7 +544,7 @@ export function logger(reducer: ActionReducer&lt;State&gt;): ActionReducer&lt;St
 &#125;
 export const metaReducers: MetaReducer&lt;State&gt;[] = !environment.production ? []  : [];
 export const getRouterState = createFeatureSelector&lt;fromRouter.RouterReducerState&lt;RouterStateUrl&gt;&gt;("router");
-</pre>  
+</pre>
 </Code>
 
 <p>That's all for our app.module. Now let's go to the <b>articles</b> module and see how is data lazy loaded. </p>
@@ -561,7 +561,7 @@ export const getRouterState = createFeatureSelector&lt;fromRouter.RouterReducerS
   <b>Actions</b> in NgRx don't call directly api through the httpClient, in our case we used axios above.
   Here we call service to send request through HttpClient. In actions we only define type of action we should dispatch.
   In <b>effects</b> we inject and call the service and use RxJS. Selectors are just a simple methods that return us part of a state.
-  For example if we need only loading status we will create <i>loadingSelector</i> and then it will access to the state and take the data from <i>state.loading</i>.
+  For example if we need only loading status we will create <b>loadingSelector</b> and then it will access to the state and take the data from <b>state.loading</b>.
 </p>
 
 <p>Let's start from article actions. </p>
@@ -576,7 +576,7 @@ export const LOAD_ARTICLE_FAILURE = "[Articles] Load Article Failure";
 export const LOAD_ARTICLES = "[Articles] Load Articles";
 export const LOAD_ARTICLES_SUCCESS = "[Articles] Load Articles Success";
 export const LOAD_ARTICLES_FAILURE = "[Articles] Load Articles Failure";
-  
+
 export class LoadArticle implements Action &#123;
   readonly type = LOAD_ARTICLE;
   constructor(public payload: any) &#123;&#125;
@@ -606,9 +606,9 @@ export type ArticleAction = LoadArticle | LoadArticleSuccess | LoadArticleFailur
 </Code>
 <p>In this case we are not exporting functions but classes, and depending from our needs we add to constructor <b>payload</b>.</p>
 <p>What's payload? Payload is object we send along the request. To send a request to load articles from the server
-we don't need anything to send, we simply call api like <i>httpClient.get(`api/articles`)</i>. When we receive a response we need to accept it in some
-variable and that's why we put <i>payload:any[]</i>, because we will get array or articles.</p>
-<p>In a similar way we are fetching single article. We request it by sending some ID: <i>httpClient.get(`api/articles/$&#123;id&#125;`)</i>.</p>
+we don't need anything to send, we simply call api like <b>httpClient.get(`api/articles`)</b>. When we receive a response we need to accept it in some
+variable and that's why we put <b>payload:any[]</b>, because we will get array or articles.</p>
+<p>In a similar way we are fetching single article. We request it by sending some ID: <b>httpClient.get(`api/articles/$&#123;id&#125;`)</b>.</p>
 <p>Making constants and exporting in this case is useful because we will use those in <b>effects</b>.
   Exporting readonly type gives us opportunity to access to action from the <b>reducer</b>, and here's how.</p>
 
@@ -841,12 +841,12 @@ export * from "./article.selectors";
 </Code>
 
 <p>Code is pretty readable. First we access to state, then we getting part by part slices of articlesState.</p>
-<div>
+<p>
   Notice the last selector.
   In that one we get the routerState which is not under this ArticleModule, but in the root, under AppModule.
   Now from that routerState we can get any data which is in url. In that way when we run into a route like <b>/articles/:id</b>
   we can easily get that article by calling this selector, which will take that ID and then return to the component entities[ID] entity data.
-</div>
+</p>
 
 <p>The only thing left is to add this data to the <b>article.module.ts</b> file, so the components know what to work with.</p>
 

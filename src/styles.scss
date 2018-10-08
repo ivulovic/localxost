@@ -217,7 +217,7 @@ code{
 .code-lang{
   margin: 0px;
   background: $darkGray;
-  color: white;
+  color: white!important;
   font-weight: bold;
   padding: 5px 10px;
 }
@@ -673,6 +673,9 @@ code{
 .content-wrapper{
   word-break: break-word;
   text-align: justify;
+  p{
+    color: $darkGray;
+  }
 }
 
 .no-padding{
