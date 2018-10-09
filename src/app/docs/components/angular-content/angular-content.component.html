@@ -1,3 +1,67 @@
 <div class="content-title">Angular</div>
 
 <ClipboardLink id="guards-with-ngrx-store"></ClipboardLink>
+
+<p>When accessing to the route, if you have your app connected to the NgRx Store, it's useful first to check if that data exists in store, or if
+it's not there, then check does it exist in the database. For that, when we want to access route <b>/articles/:id</b> we should take that article from
+the store, if it's not in store then we should load it from the server and put it in store.</p>
+
+<p>For example if we are on route <b>/articles</b> where we have our article entities loaded, and we navigate to the <b>article/55621</b> we want to take
+<b>entities[55621]</b> from the store. That's loaded in a millisecond because the data is already there in store and ready for use and display.</p>
+
+<p>Sometimes we have a situation that we came to the page with route <b>article/55621</b> from some other page, for example someone gave us a link. In that case
+we have don't have entities in store, so the entity fetching from store will fail. In that case we should load it from the server and put it into the store.
+  In that way app won't break and we will have our data just there.
+</p>
+
+<p>Here's an example of the guard where we do exactly what is described above.</p>
+
+<Code title="article-exist.guard.ts">
+<pre>
+...
+export class ArticleExistsGuard implements CanActivate&#123;
+  constructor(private store: Store&lt;reducers.State&gt;, private articleService: ArticleService,  private router: Router) &#123;&#125;
+  canActivate(route: ActivatedRouteSnapshot) &#123;
+    return this.hasArticle(route.params['articleId']);
+  &#125;
+  hasArticle(id: string): Observable&lt;boolean&gt; &#123;
+    return this.hasArticleInStore(id).pipe(
+      switchMap(inStore =&gt; &#123;
+        if (inStore) &#123;
+          return of(inStore);
+        &#125;
+        return this.hasArticleInApi(id);
+      &#125;)
+    );
+  &#125;
+  hasArticleInStore(id: string): Observable&lt;boolean&gt; &#123;
+    return this.store.pipe(
+      select(selectors.getArticleEntities),
+      map(entities =&gt;  !!entities[id]),
+      take(1)
+    );
+  &#125;
+  hasArticleInApi(id: string): Observable&lt;boolean&gt; &#123;
+    return this.articleService.getArticle(id).pipe(
+      map(articleEntity =&gt; &#123;
+        return articleEntity ? new ArticleActions.LoadArticle(articleEntity) : new Error();
+      &#125;),
+      tap((action: ArticleActions.LoadArticle) =&gt; this.store.dispatch(action)),
+      map(article =&gt; &#123;
+        return !!article
+      &#125;),
+      catchError(() =&gt; &#123;
+        this.router.navigate(['/404']);
+        return of(false);
+      &#125;)
+    );
+  &#125;
+&#125;  
+</pre>  
+</Code>
+
+<p>Here we in all cases return <b>Observable&lt;boolean&gt;</b>. In that way we will access to the page if data is found, or we will be redirected to NotFound page if there's no data.</p>
+
+<p>If you're building a website where data is not changing every minute then this solution can also be used when we are on <b>/articles</b> route.
+  We can have for example ArticlesLoaded guard where we will check if there is something in store, if there is not
+then we will load it from server. Next time we navigate on the page data will be loaded and we won't do useless http request.</p>

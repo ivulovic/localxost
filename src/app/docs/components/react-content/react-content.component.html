@@ -1,6 +1,153 @@
 <div class="content-title">React</div>
 
 <ClipboardLink id="react-components"></ClipboardLink>
-<!--Props route and stuff-->
-<ClipboardLink id="react-lifecycle-methods"></ClipboardLink>
-<ClipboardLink id="fade-animation-on-route-change"></ClipboardLink>
+
+<p><b>PropsRoute</b> is a wrapped <b>Route</b> component, that can be used when you want to send some data as the props to the route.</p>
+
+<Code title="JavaScript">
+<pre>
+const renderMergedProps = (component, ...rest) =&gt; &#123;
+  const finalProps = Object.assign(&#123;&#125;, ...rest);
+  return React.createElement(component, finalProps);
+&#125;
+export const PropsRoute = ((&#123; component, ...rest &#125;) =&gt; &#123;
+  return <Route &#123;...rest &#125; render=&#123; routeProps =&gt; renderMergedProps(component, routeProps, rest)&#125; /&gt;
+&#125;});
+</pre>  
+</Code>
+<p>If you have to check something which goes to the route you can create something like this.</p>
+<Code title="JavaScript">
+<pre>
+const PropsRoute = (&#123; component, ...rest &#125;) =&gt; &#123;
+  return (
+  &lt;Route &#123;...rest&#125; render=&#123;routeProps =&gt; &#123;
+    if(rest.someData)&#123;  // some sensitive data is passed in props and we need to check
+      return rest.thatDataHasSomethingElseToCheck ? renderMergedProps(component, routeProps, rest) : &lt;NotFound /&gt;;
+    &#125; else return renderMergedProps(component, routeProps, rest);
+    &#125;&#125;/&gt;
+  );
+&#125;  
+</pre>  
+</Code>
+
+<ClipboardLink id="fade-animation-with-higher-order-component"></ClipboardLink>
+
+<p>We use higher order component (HOC) when we have something mutual between components. In our example, we want on each route change to show an animation, where we will fade page.</p>
+<p>Nice explained HOC you can find on React docs page: <button (click)="goToExternalLink('https://reactjs.org/docs/higher-order-components.html')" class="button-icon button-link-outline"><Icon icon="paper-plane"></Icon> Here</button>.</p>
+<p>Let's see how to do it. Let's create HOC first.</p>
+
+<Code title="JavaScript">
+<pre>
+const HOC = (InnerComponent) =&gt; class extends React.Component&#123;
+  constructor(props)&#123;
+    super(props);
+    this.mountStyle = this.mountStyle.bind(this);
+    this.state = &#123;
+      style: &#123;
+        opacity: 0.5,
+        transition: "all 2s ease"
+      &#125;
+    &#125;
+  &#125;
+  componentWillReceiveProps(newProps)&#123;
+    setTimeout(this.mountStyle, 500);
+  &#125;
+  componentDidMount()&#123;
+    setTimeout(this.mountStyle, 100);
+  &#125;
+  mountStyle()&#123;
+    this.setState(&#123;
+      style:&#123;
+        opacity:1,
+        transition: "all 1s ease"
+      &#125;
+    &#125;)
+  &#125;
+  render()&#123;
+    return &lt;InnerComponent &#123;...this.props&#125; &#123;...this.state&#125; /&gt;
+  &#125;
+&#125;  
+</pre>  
+</Code>
+
+<p>So here we say that we receive one component, we change opacity from 0.5 to 1 with all 2s ease animation. At the end we return an wrapped component that has in
+    with animation applied.
+</p>
+
+<p>Lets see how our 3 routes look like.</p>
+
+<Code title="JavaScript">
+<pre>
+const RouteA  = (props) =&gt; &#123;
+  return(
+    &lt;div style=&#123;props.style&#125;&gt;
+      &lt;div className="background route-a-bg"&gt;&lt;div className="black-bg"&gt;&lt;/div&gt;&lt;/div&gt;
+      &lt;h2&gt;Route A&lt;/h2&gt;
+      &lt;div&gt; 
+        &lt;p&gt;&lt;Link to="/b"&gt;Go to B&lt;/Link&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;Link to="/c"&gt;Go to C&lt;/Link&gt;&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  )
+&#125;
+
+const RouteB  = (props) =&gt; &#123;
+  return(
+    &lt;div style=&#123;props.style&#125;&gt;
+      &lt;div className="background route-b-bg"&gt;&lt;div className="black-bg"&gt;&lt;/div&gt;&lt;/div&gt;
+      &lt;h2&gt;Route B&lt;/h2&gt;
+      &lt;div&gt; 
+        &lt;p&gt;&lt;Link to="/a"&gt;Go to A&lt;/Link&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;Link to="/c"&gt;Go to C&lt;/Link&gt;&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  )
+&#125;
+
+const RouteC = (props) =&gt; &#123;
+  return(
+    &lt;div style=&#123;props.style&#125;&gt;
+      &lt;div className="background route-c-bg"&gt;&lt;div className="black-bg"&gt;&lt;/div&gt;&lt;/div&gt;
+      &lt;h2&gt;Route C&lt;/h2&gt;
+      &lt;div&gt; 
+        &lt;p&gt;&lt;Link to="/a"&gt;Go to A&lt;/Link&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;Link to="/b"&gt;Go to B&lt;/Link&gt;&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  )
+&#125;
+</pre>
+</Code>
+
+<p>Here to the all 3 routes at the root div we assign simply <b>style=&#123;this.props.style&#125;</b>. Additional buttons are only for changing route.</p>
+
+<p>To make this work we have to wrap all 3 components in HOC and then render it to the DOM. Here's how.</p>
+
+<Code title="JavaScript">
+<pre>
+const HOCRouteA = HOC(RouteA);
+const HOCRouteB = HOC(RouteB);
+const HOCRouteC = HOC(RouteC);
+
+class App extends React.Component&#123;
+  render()&#123;
+    return ( 
+      &lt;Router history=&#123;browserHistory&#125;&gt;
+        &lt;Route path="/" component=&#123;HOCRouteA&#125; /&gt;
+        &lt;Route path="/a" component=&#123;HOCRouteA&#125; /&gt;
+        &lt;Route path="/b" component=&#123;HOCRouteB&#125; /&gt;
+        &lt;Route path="/c" component=&#123;HOCRouteC&#125; /&gt;
+        &lt;Route path="*" component=&#123;HOCRouteA&#125; /&gt;
+      &lt;/Router&gt; 
+    )
+  &#125;
+&#125;
+
+ReactDOM.render(
+  &lt;App/&gt;,
+  document.getElementById('app')
+);
+</pre>
+</Code>
+
+<p>That's all. Here's full working example in React, done in <button type="button" (click)="goToExternalLink('https://codepen.io/vulovic95/pen/MPbLMw?editors=0010')" class="button-icon button-link-outline"><Icon icon="paper-plane"></Icon> CodePen</button></p>

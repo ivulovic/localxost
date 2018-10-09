@@ -21,5 +21,10 @@ export class ContentComponent implements OnInit {
     })
   }
 
-
+  goToExternalLink(link){
+    var a = document.createElement("a");
+    a.href = link;
+    a.target="new";
+    a.click();
+  }
 }

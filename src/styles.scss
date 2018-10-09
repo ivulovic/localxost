@@ -102,7 +102,7 @@ body.modal-open{
   height: 100%;
   overflow: hidden;
   overflow-y: scroll;
-  margin-right: -40px;
+  margin-right: -50px;
 }
 
 .scroll-header{
@@ -217,7 +217,7 @@ code{
 .code-lang{
   margin: 0px;
   background: $darkGray;
-  color: white!important;
+  color: white;
   font-weight: bold;
   padding: 5px 10px;
 }
@@ -673,7 +673,7 @@ code{
 .content-wrapper{
   word-break: break-word;
   text-align: justify;
-  p{
+  & > p{
     color: $darkGray;
   }
 }

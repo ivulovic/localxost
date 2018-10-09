@@ -33,15 +33,15 @@ export class AppComponent {
       ]},
     {topic: "React", sections:[
       "React components",
-      "React Lifecycle methods",
-      "Fade animation on route change",
+      "Fade animation with Higher Order Component",
     ]},
     {topic:"Angular",sections:[
        "Guards with NgRx Store"
       ]},
     {topic: "NodeJS", sections:[
-      "Set up an NodeJS server",
-      "Working with API"
+      "Set up NodeJS server",
+      "Proxy requests from client to server",
+      "Working on server side"
       ]},
     {topic:"MongoDB", sections:[
       "Creating MongoDB model",
